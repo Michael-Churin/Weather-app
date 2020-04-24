@@ -1,0 +1,45 @@
+.currentWeather {
+    min-width: 200px;
+    max-width: 200px;
+    margin: 24px 12px;
+}
+
+.currentWeather > h3 {
+    margin-bottom: 0;
+}
+
+.currentWeather time {
+    color: #666;
+}
+
+.currentWeather > .main {
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
+
+.currentWeather > .details {
+    color: #666;
+}
+
+.currentWeather > .description {
+    color: #666;
+    margin-top: 24px;
+}
+
+.currentWeather .temp {
+    font-size: 2.5em;
+    vertical-align: middle !important;
+    text-align: right;
+}
+
+.currentWeather .pressure,
+.currentWeather .humidity,
+.currentWeather .wind {
+    text-align: right;
+}
+
+@media screen and (min-width: 576px) {
+    .currentWeather {
+        margin: 24px 72px;
+    }
+}

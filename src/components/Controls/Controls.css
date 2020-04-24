@@ -1,0 +1,25 @@
+.controls {
+    display: flex;
+    flex-direction: column;
+    margin: 48px 12px 12px 12px;
+}
+
+.controls .form-group {
+    margin: 0 24px;
+}
+
+.controls .title {
+    font-size: 1.3em;
+    margin-right: 12px;
+}
+
+.controls .form-control {
+    display: inline-block;
+    width: auto;
+}
+
+@media screen and (min-width: 768px) {
+    .controls {
+        flex-direction: row;
+    }
+}

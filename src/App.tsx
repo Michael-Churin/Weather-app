@@ -1,26 +1,49 @@
 import React from 'react';
-import logo from './logo.svg';
+import Moment from 'moment';
 import './App.css';
+import Controls from './components/Controls/Controls';
+import WeatherContainer from './components/WeatherContainer/WeatherContainer';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import 'moment/locale/ru';
+Moment.locale('ru');
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const initialState = {
+  cityId: 1,
+  scaleType: "Celsius"
+}
+type State = Readonly<typeof initialState>
+
+class App extends React.Component<{}, State> {
+  public readonly state: State = initialState
+
+  public handleCityChange = (cityId: number) => {
+    this.setState({cityId: cityId});
+  }
+
+  public handleScaleTypeChange = (scaleType: string) => {
+    this.setState({scaleType: scaleType});
+  }
+
+  public render() {
+    return (
+      <div className="app">
+        <header>
+          <h1>Прогноз погоды</h1>
+        </header>
+        <main>
+            <Controls cityId={this.state.cityId} scaleType={this.state.scaleType} 
+              onCityChange={this.handleCityChange} onScaleTypeChange={this.handleScaleTypeChange} />
+
+            <ErrorBoundary>  
+              <WeatherContainer cityId={this.state.cityId} scaleType={this.state.scaleType} />
+            </ErrorBoundary>
+        </main>
+        <footer>
+          <p>Developed by React</p>
+        </footer>
+      </div>
+    );
+  }
 }
 
 export default App;

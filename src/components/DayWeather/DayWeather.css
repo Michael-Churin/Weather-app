@@ -1,0 +1,34 @@
+.dayWeather {
+    min-width: 120px;
+    max-width: 120px;
+    margin: 24px 12px;
+}
+
+.dayWeather > h3 {
+    margin-bottom: 0;
+}
+
+.dayWeather > h3.dayOff {
+    color: red;
+}
+
+.dayWeather time {
+    color: #666;
+}
+
+.dayWeather > .icon {
+    margin-top: 3px;
+}
+
+.dayWeather .tempDay {
+    font-size: 1.3em;
+}
+
+.dayWeather .tempNight {
+    color: #666;
+}
+
+.dayWeather > .description {
+    color: #666;
+    margin-top: 24px;
+}

@@ -1,0 +1,19 @@
+.alignContainer {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+    justify-content: center;
+}
+
+.weatherContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+@media screen and (min-width: 576px) {
+    .weatherContainer {
+        flex-direction: row;
+    }
+}
