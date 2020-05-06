@@ -8,7 +8,7 @@ type Props = {
     scaleType: string;
 }
 
-class WeekForecast extends React.Component<Props, {}> {
+class WeekForecast extends React.Component<Props> {
     public render() {
         return (
             <div className="weekForecast">

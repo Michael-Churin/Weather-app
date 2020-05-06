@@ -4,16 +4,16 @@ import CurrentWeather from './../CurrentWeather/CurrentWeather';
 import CurrentData from './../../common/types/CurrentData';
 import WeekForecast from './../WeekForecast/WeekForecast';
 import DayData from './../../common/types/DayData';
-import cities from './../../common/data/cities.json';
+import {Coord} from './../../common/types/City';
 import './WeatherContainer.css';
 
 type Props = {
-    cityId: number;
+    coord: Coord;
     scaleType: string;
 }
 
 type State = Readonly<{
-    prevCityId?: number;
+    prevCoord?: Coord;
     currentWeather?: CurrentData;
     daysWeather?: ReadonlyArray<DayData>;
 }>
@@ -21,14 +21,22 @@ type State = Readonly<{
 class WeatherContainer extends React.Component<Props, State> {
     public readonly state: State = {}
 
-    public componentDidMount = async () => {
-        await this.fetchData();
+    public componentDidMount() {
+        this.fetchData();
     }
 
-    public static getDerivedStateFromProps = (nextProps: Props, prevState: State): State => {
-        if (nextProps.cityId !== prevState.prevCityId) {
+    public static getDerivedStateFromProps(nextProps: Props, prevState: State): State {
+        const nextLon = nextProps.coord.lon;
+        const nextLat = nextProps.coord.lat;
+        const prevLon = prevState.prevCoord?.lon;
+        const prevLat = prevState.prevCoord?.lat;
+
+        if (nextLon !== prevLon || nextLat !== prevLat) {
             return {
-                prevCityId: nextProps.cityId,
+                prevCoord: { 
+                    lon: nextLon,
+                    lat: nextLat
+                },
                 currentWeather: undefined,
                 daysWeather: undefined        
             };
@@ -36,26 +44,25 @@ class WeatherContainer extends React.Component<Props, State> {
         return {};
     }
 
-    public componentDidUpdate = async (prevProps: Props, prevState: State) => {
+    public componentDidUpdate(prevProps: Props, prevState: State) {
         if (!this.state.currentWeather || !this.state.daysWeather)
-            await this.fetchData();
+            this.fetchData();
     }
 
-    private async fetchData() {
-        const city = cities.find(city => city.id === (this.props.cityId));
-        if (!city)
-            throw new Error("Город не найден.");
-
+    private fetchData() {
+        const lon = this.props.coord.lon;
+        const lat = this.props.coord.lat;
         const appId = process.env.REACT_APP_OWM_API_KEY;
-        const owmUrl = `https://api.openweathermap.org/data/2.5/onecall?lon=${city.coord.lon}&lat=${city.coord.lat}&units=metric&appid=${appId}&lang=ru`;
+        const owmUrl = `https://api.openweathermap.org/data/2.5/onecall?lon=${lon}&lat=${lat}&units=metric&appid=${appId}&lang=ru`;
 
-        let response = await fetch(owmUrl);
-        let json = await response.json();
-
-        this.setState({
-            currentWeather: this.formatCurrentData(json.current),
-            daysWeather: this.formatDaysData(json.daily)
-        });
+        fetch(owmUrl)
+            .then(response => response.json())
+            .then(json => 
+                this.setState({
+                    currentWeather: this.formatCurrentData(json.current),
+                    daysWeather: this.formatDaysData(json.daily)
+                })
+            );
     }
 
     private formatCurrentData(current: any): CurrentData  {

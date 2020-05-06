@@ -1,15 +1,16 @@
 import React from 'react';
-import cities from '../../common/data/cities.json';
+import {City} from './../../common/types/City';
 import './Controls.css';
 
 type Props = {
+    cities: ReadonlyArray<City>;
     cityId: number;
     scaleType: string;
     onCityChange: (cityId: number) => void;
     onScaleTypeChange: (scaleType: string) => void;
 }
 
-class Controls extends React.Component<Props, {}> {
+class Controls extends React.Component<Props> {
     public handleCityChange = (event: React.FormEvent<HTMLSelectElement>) => {
         this.props.onCityChange(parseInt(event.currentTarget.value));
     }
@@ -19,13 +20,7 @@ class Controls extends React.Component<Props, {}> {
     }
 
     public render() {
-        const sortedCities = cities.sort((city1, city2) => {
-            const name1 = city1.name.toLowerCase();
-            const name2 = city2.name.toLowerCase();
-            return name1 !== name2 ? (name1 > name2 ? 1 : -1) : 0;
-        });
-
-        const options = sortedCities.map(city => 
+        const cities = this.props.cities.map(city => 
             <option key={city.id} value={city.id}>{city.name}</option>
         );
 
@@ -35,7 +30,7 @@ class Controls extends React.Component<Props, {}> {
                     <label>
                         <span className="title">Город</span>
                         <select className="form-control" value={this.props.cityId} onChange={this.handleCityChange}>
-                            {options}
+                            {cities}
                         </select>
                     </label>
                 </div>

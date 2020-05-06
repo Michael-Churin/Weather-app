@@ -9,7 +9,7 @@ type Props = {
     scaleType: string;
 }
 
-class CurrentWeather extends React.Component<Props, {}> {
+class CurrentWeather extends React.Component<Props> {
     public render() {
         const current = Moment();
         const iconUrl = `http://openweathermap.org/img/wn/${this.props.data.icon}@2x.png`;

@@ -9,7 +9,7 @@ type Props = {
     scaleType: string;
 }
 
-class DayWeather extends React.Component<Props, {}> {
+class DayWeather extends React.Component<Props> {
     public render() {
         const current = Moment();
         const date = Moment(this.props.data.date);
